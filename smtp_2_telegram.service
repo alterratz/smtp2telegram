@@ -1,0 +1,21 @@
+# copy this file to /etc/systemd/system
+# then reload systemd and enable service
+# systemctl daemon-reload
+# systemctl enable <this>.service
+# systemctl enable <this>.service
+
+
+[Unit]
+Description=SMTP to Telegram Gateway
+After=network.target
+
+[Service]
+WorkingDirectory=/home/proxycheck
+User=proxycheck
+Group=proxycheck
+Restart=always
+ExecStart=/usr/bin/screen -D -m -S smtp_2_telegram python3 /home/proxycheck/bin/smtp_2_telegram.py
+ExecStop=pkill -TERM -F /home/proxycheck/smtp_2_telegram.pid
+
+[Install]
+WantedBy=multi-user.target
